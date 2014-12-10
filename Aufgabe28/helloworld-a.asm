@@ -1,6 +1,6 @@
 .section .data #Datenteil des Programms
 
-str: 	.ascii "Hello World! \n" #Die ASCII-Datenkette "Hello World!"
+str: 	.ascii "Hello World! \n" #Die ASCII-Zeichenkette "Hello World!"
 	strlen = . - str #Die Laenge der Zeichenkette
 
 num: 	.long 1337 #long Variable mit Wert 1337
