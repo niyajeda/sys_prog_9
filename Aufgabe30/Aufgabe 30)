@@ -1,6 +1,6 @@
 Aufgabe 30)
 
-a) xor %eax, %eax ist nichts anderes als movl %eax, 0 was nichts anderes tut als das Register zu leeren. int i = 0; für vergleichbares tun.
+a) xor %eax, %eax ist nichts anderes als movl $0, %eax was nichts anderes tut als das Register zu leeren. unsigned int i = 0; für vergleichbares tun.
 b) int i; i = i*5 
 c)
 
@@ -8,5 +8,5 @@ xor %ecx, %ecx //register %ecx leeren
 cmp $42, %eax //vergleiche $42 mit wert aus register %eax
 setnz %cl //wenn wert aus register %cl != 0 (höhere 16 bits von %ecl) dann setze %cl = 1 sonst setze %cl = 0
 dec %ecx //dekrementiere %ecx
-and $0xfffffffb, %ecx 
-add $0x0a, %ecx
+and $0xfffffffb, %ecx //in %ecx steht eine 3 
+add $0x0a, %ecx //%ecx = 13
