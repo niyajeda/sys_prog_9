@@ -1,0 +1,15 @@
+Aufgabe 29b)
+Mit enter baut man das Stackframe auf. Der Befehl erwartet 2 Operanden. Der erste Operand gibt die Größe des zu reservierenden Stackspeichers in Byte an und der zweite Operand die Verschachtelungstiefe (i.d.R 0)
+
+Der Enterbefehl (mit Verschachtelungstiefe 0) mach das gleiche wie folgende Befehlsfolge:
+
+pushl %rbp
+movl %rsp, %rbp
+subl %Operand1, %rsp
+
+Mit leave verlässt man das Stackframe.
+Es entspricht der Befehlsfolge:
+movl %rbp,%rsp
+popl %rbp
+
+Aufgabe 29c)
