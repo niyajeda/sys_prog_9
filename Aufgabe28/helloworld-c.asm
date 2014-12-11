@@ -25,7 +25,7 @@ loop:
 	jmp loop
 
 next:
-	cmpl $0, %esi       #wenn die Schleife keinmal durchlaufen wurde breche ab
+	cmpl $0, %esi       #wenn keine Ziffer mehr uebrig ist, breche ab
 	jz exit 
 	decl %esi           #dekrementiere #Schleifeniterationen
 	movl $4, %eax       #bereite Ausgabe vor
