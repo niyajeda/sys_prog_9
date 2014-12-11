@@ -14,28 +14,28 @@ num: 	.long 1337 #long Variable mit Wert 1337
 printnumber:
 
 loop:
-	movl	$0, %edx
-	movl 	$10, %ebx
-	divl	%ebx
-	addl	$48, %edx
-	pushl	%edx
-	incl	%esi
-	cmpl $0, %eax
-	jz next
+	movl	$0, %edx    #bereite Division durch 10 vor
+	movl 	$10, %ebx   
+	divl	%ebx        #dividiere rax durch 10 --> in rax steht Ergebnis und in rdx steht jetzt Rest der Division 
+	addl	$48, %edx   #addiere 48, da 48 die 0 in ASCII darstellt
+	pushl	%edx        #lege die Ziffer auf den Stack
+	incl	%esi        # #Schleifeniterationen 
+	cmpl $0, %eax       #ist rax=0?
+	jz next     
 	jmp loop
 
 next:
-	cmpl $0, %esi
-	jz exit
-	decl %esi
-	movl $4, %eax
-	movl %esp, %ecx
-	movl $1, %ebx
-	movl $1, %edx
+	cmpl $0, %esi       #wenn die Schleife keinmal durchlaufen wurde breche ab
+	jz exit 
+	decl %esi           #dekrementiere #Schleifeniterationen
+	movl $4, %eax       #bereite Ausgabe vor
+	movl %esp, %ecx     #hole Ziffer vom Stack
+	movl $1, %ebx       #Filedescriptor fur stdout
+	movl $1, %edx       #Laenge
 
-	int $0x80
-	addl $4, %esp
-	jmp next
+	int $0x80           #Syscall
+	addl $4, %esp       #Addiere 4 zum Stack-Pointer um bei der naechsten Iteration auf die richtige Ziffer zuzugreifen
+	jmp next           
 exit:
 	ret
 
