@@ -1,6 +1,6 @@
 .section .data
 
-n:	.quad	10		# define the fibonacci number that should be calculated
+n:	.quad	15		# define the fibonacci number that should be calculated
 str: 	.ascii "1" #Die ASCII-Zeichenkette "Hello World!"
 strlen = . - str #Die Laenge der Zeichenkette
 
@@ -15,7 +15,7 @@ _start:
 	addq	$8, %rsp	# remove parameter from stack
 
 	# print calculated Fibonacci number on stdout
-    movq    $10, %rax	
+    # movq    $10, %rax	
     call	printnumber
 
 	# exit process with exit code 0
@@ -28,9 +28,31 @@ _start:
 #   Parameter: Integer n >= 0, passed on stack
 #   Returns:   Fibonacci number f(n), returned in rax
 .type f, @function
+enter $160, $0
 f:
-	# ...
-	ret
+    pushq   %rbp
+    movq    %rsp, %rbp
+    subq    $8, %rsp
+    movq    16(%rbp), %rbx
+    cmpq    $1, %rbx
+    jg      f_rec
+    movq     %rbx, %rax
+    jmp     f_out
+f_rec:
+    decq    %rbx
+    pushq   %rbx
+    call    f
+    popq    %rbx
+    movq    %rax, -8(%rbp)
+    decq    %rbx
+    pushq   %rbx
+    call f
+    addq    $8, %rsp
+    addq    -8(%rbp), %rax  
+f_out:	
+    leave
+    ret
+
 .type printnumber, @function
 printnumber:
 stackframe:
