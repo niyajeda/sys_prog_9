@@ -3,13 +3,13 @@ Mit enter baut man das Stackframe auf. Der Befehl erwartet 2 Operanden. Der erst
 
 Der Enterbefehl (mit Verschachtelungstiefe 0) mach das gleiche wie folgende Befehlsfolge:
 
-pushl %rbp
-movl %rsp, %rbp
-subl %Operand1, %rsp
+pushl %ebp
+movl %rsp, %ebp
+subl %Operand1, %esp
 
 Mit leave verlässt man das Stackframe.
 Es entspricht der Befehlsfolge:
-movl %rbp,%rsp
-popl %rbp
+movl %ebp,%esp
+popl %ebp
 
 Aufgabe 29c)
