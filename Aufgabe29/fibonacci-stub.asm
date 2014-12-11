@@ -1,6 +1,8 @@
 .section .data
 
 n:	.quad	10		# define the fibonacci number that should be calculated
+str: 	.ascii "1" #Die ASCII-Zeichenkette "Hello World!"
+strlen = . - str #Die Laenge der Zeichenkette
 
 .section .text
 
@@ -32,30 +34,31 @@ f:
 .type printnumber, @function
 printnumber:
 stackframe:
-    enter $16000, $1
+    enter $160, $0
 loop:
 	movq	$0, %rdx    #bereite Division durch 10 vor
 	movq 	$10, %rbx
 	divq	%rbx        #dividiere rax durch 10 --> in rax steht Ergebnis und in rdx steht jetzt Rest der Division 
 	addq	$48, %rdx   #addiere 48, da 48 die 0 in ASCII darstellt
-	pushq	%rdx        #(lege die Zahl auf den Stack)
-    incq	%rsi        # #Schleifeniterationen
-	cmpq $0, %rax       #ist rax=0?
-	jz next
-	jmp loop
+    addq    $0x0, %rdx	
+    pushq	%rdx        #(lege die Zahl auf den Stack)
+    incq	%r12        # #Schleifeniterationen
+	cmpq $0x0, %rax       #ist rax=0?
+	jne loop
+	jmp next
 
 next:
-	cmpq $0, %rsi       #wenn keine Ziffer mehr uebrig ist, breche ab
+    cmpq $0, %r12       #wenn keine Ziffer mehr uebrig ist, breche ab
 	jz exit
-	decq %rsi           #dekrementiere #Schleifeniterationen
-	movq $4, %rax       #bereite Ausgabe vor
-	movq %rsp, %rcx     #hole Ziffer vom Stack
-	movq $1, %rbx       #Filedescriptor fuer stdout
-	movq $1, %rdx       #Laenge
-
-	int $0x80           #Syscall
+	decq %r12           #dekrementiere #Schleifeniterationen	
+    movq $1, %rax
+    movq $1, %rdi
+    movq %rsp, %rsi
+    movq $1, %rdx
+    syscall
 	addq $8, %rsp       #Addiere 8(64bit) zum Stack-Pointer um bei der naechsten Iteration auf die richtige Ziffer zuzugreifen
-	jmp next            
+	jmp next   
+    jmp exit
 exit:
     leave
 	ret
