@@ -1,9 +1,6 @@
 .section .data
 
-n:	.quad	15		# define the fibonacci number that should be calculated
-str: 	.ascii "1" #Die ASCII-Zeichenkette "Hello World!"
-strlen = . - str #Die Laenge der Zeichenkette
-
+n:	.quad	20		# define the fibonacci number that should be calculated
 .section .text
 
 .global _start
@@ -30,25 +27,25 @@ _start:
 .type f, @function
 enter $160, $0
 f:
-    pushq   %rbp
+    pushq   %rbp        
     movq    %rsp, %rbp
-    subq    $8, %rsp
-    movq    16(%rbp), %rbx
+    subq    $8, %rsp       #lokale Variable definieren
+    movq    16(%rbp), %rbx #hole n (16 da der alte %rbp und %rip auf dem Stack liegt) 
     cmpq    $1, %rbx
-    jg      f_rec
-    movq     %rbx, %rax
+    jg      f_rec           #wenn %rbx > 1 -> Rekursion
+    movq     %rbx, %rax     #wenn %rbx <= 1 -> gebe n zurueck und springe raus
     jmp     f_out
 f_rec:
-    decq    %rbx
-    pushq   %rbx
-    call    f
-    popq    %rbx
-    movq    %rax, -8(%rbp)
-    decq    %rbx
-    pushq   %rbx
-    call f
-    addq    $8, %rsp
-    addq    -8(%rbp), %rax  
+    decq    %rbx            
+    pushq   %rbx            #push n-1
+    call    f               #Funktion mit n-1
+    popq    %rbx            #hole n-1 zurueck vom Stack
+    movq    %rax, -8(%rbp)  #speichere Ergebnis
+    decq    %rbx            
+    pushq   %rbx            #push n-2
+    call f                  #Funktion mit n-2
+    addq    $8, %rsp        
+    addq    -8(%rbp), %rax  #summiere Ergebnisse auf
 f_out:	
     leave
     ret
@@ -73,7 +70,7 @@ next:
     cmpq $0, %r12       #wenn keine Ziffer mehr uebrig ist, breche ab
 	jz exit
 	decq %r12           #dekrementiere #Schleifeniterationen	
-    movq $1, %rax
+    movq $1, %rax       #bereite Ausgabe vor
     movq $1, %rdi
     movq %rsp, %rsi
     movq $1, %rdx
