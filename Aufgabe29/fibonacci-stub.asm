@@ -1,6 +1,6 @@
 .section .data
 
-n:	.quad	20		# define the fibonacci number that should be calculated
+n:	.quad	3		# define the fibonacci number that should be calculated
 .section .text
 
 .global _start
@@ -25,9 +25,8 @@ _start:
 #   Parameter: Integer n >= 0, passed on stack
 #   Returns:   Fibonacci number f(n), returned in rax
 .type f, @function
-enter $160, $0
 f:
-    pushq   %rbp        
+    pushq   %rbp            #Stackframe erzeugen   
     movq    %rsp, %rbp
     subq    $8, %rsp       #lokale Variable definieren
     movq    16(%rbp), %rbx #hole n (16 da der alte %rbp und %rip auf dem Stack liegt) 
