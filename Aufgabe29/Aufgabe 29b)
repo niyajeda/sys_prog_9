@@ -4,7 +4,7 @@ Mit enter baut man das Stackframe auf. Der Befehl erwartet 2 Operanden. Der erst
 Der Enterbefehl (mit Verschachtelungstiefe 0) mach das gleiche wie folgende Befehlsfolge:
 
 pushl %ebp
-movl %rsp, %ebp
+movl %esp, %ebp
 subl %Operand1, %esp
 
 Mit leave verlässt man das Stackframe.
