@@ -12,7 +12,6 @@ _start:
 	addq	$8, %rsp	# remove parameter from stack
 
 	# print calculated Fibonacci number on stdout
-    # movq    $10, %rax	
     call	printnumber
 
 	# exit process with exit code 0
@@ -28,8 +27,8 @@ _start:
 f:
     pushq   %rbp            #Stackframe erzeugen   
     movq    %rsp, %rbp
-    subq    $8, %rsp       #lokale Variable definieren
-    movq    16(%rbp), %rbx #hole n (16 da der alte %rbp und %rip auf dem Stack liegt) 
+    subq    $8, %rsp       
+    movq    16(%rbp), %rbx  #hole n (16 da der alte %rbp und %rip auf dem Stack liegt) 
     cmpq    $1, %rbx
     jg      f_rec           #wenn %rbx > 1 -> Rekursion
     movq     %rbx, %rax     #wenn %rbx <= 1 -> gebe n zurueck und springe raus
@@ -52,7 +51,8 @@ f_out:
 .type printnumber, @function
 printnumber:
 stackframe:
-    enter $160, $0
+    pushq   %rbp            #Stackframe erzeugen   
+    movq    %rsp, %rbp
 loop:
 	movq	$0, %rdx    #bereite Division durch 10 vor
 	movq 	$10, %rbx
